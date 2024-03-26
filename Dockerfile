@@ -1,5 +1,5 @@
 # Use the specified PyTorch image with CUDA 12.1 and cuDNN 8 development environment
-FROM pytorch/pytorch:2.2.1-cuda12.1-cudnn8-devel
+FROM pytorch/pytorch:2.2.1-cuda12.1-cudnn8-runtime
 
 # Install wget and bzip2 (needed to install Anaconda)
 RUN apt-get update && apt-get install -y wget bzip2
