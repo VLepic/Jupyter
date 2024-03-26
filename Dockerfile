@@ -5,7 +5,8 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda create -n anaconda11 python=3.11 -y
 ENV PATH /opt/conda/envs/anaconda11/bin:$PATH
 
-RUN conda install -n anaconda11 pytorch torchvision torchaudio cudatoolkit=12.1.1 -c pytorch -y
+RUN conda install -n anaconda11 pytorch torchvision torchaudio -c pytorch -y
+RUN conda install -n anaconda11 nvidia/label/cuda-12.1.1::cuda-toolkit -c pytorch -y
 
 RUN conda install -n anaconda11 -c conda-forge jupyterlab -y
 
