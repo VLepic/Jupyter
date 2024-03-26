@@ -3,7 +3,6 @@ FROM pytorch/pytorch:2.2.1-cuda12.1-cudnn8-devel
 
 # Install wget and bzip2 (needed to install Anaconda)
 RUN apt-get update && apt-get install -y wget bzip2
-    && apk cache clean
 # Install the latest version of Anaconda by downloading the latest installer
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2024.02-1-Linux-x86_64.sh -O ~/anaconda.sh && \
     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
