@@ -14,7 +14,7 @@ VOLUME ["/mnt/user/appdata/jupyter"]
 
 EXPOSE 8888
 
-CMD ["conda", "run", "-n", "anaconda11", "jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password='dm'"]
+CMD ["conda", "run", "-n", "anaconda11", "jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
 
 
 
