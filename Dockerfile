@@ -6,6 +6,7 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda create -n anaconda11 python=3.11 -y
 RUN echo "source activate anaconda11" > ~/.bashrc
 ENV PATH /opt/conda/envs/anaconda11/bin:$PATH
+RUN conda install -n anaconda11 pytorch torchvision torchaudio cudatoolkit=12.1 -c pytorch -y
 
 RUN conda install -n anaconda11 -c conda-forge jupyterlab -y
 
