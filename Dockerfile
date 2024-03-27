@@ -7,7 +7,7 @@ ENV PATH /opt/conda/envs/anaconda11/bin:$PATH
 
 RUN conda install -n anaconda11 pytorch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 pytorch-cuda=12.1 -c pytorch -c nvidia -y
 #RUN conda install -n anaconda11 pytorch torchvision torchaudio -c pytorch -y
-RUN conda install -n anaconda11 nvidia/label/cuda-12.1.1::cuda-toolkit -c pytorch -y
+#RUN conda install -n anaconda11 nvidia/label/cuda-12.1.1::cuda-toolkit -c pytorch -y
 
 RUN conda install -n anaconda11 -c conda-forge jupyterlab -y
 
