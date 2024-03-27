@@ -5,12 +5,13 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda create -n anaconda11 python=3.11 -y
 ENV PATH /opt/conda/envs/anaconda11/bin:$PATH
 
-RUN conda install -n anaconda11 pytorch torchvision torchaudio -c pytorch -y
+RUN conda install pytorch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 pytorch-cuda=12.1 -c pytorch -c nvidia
+#RUN conda install -n anaconda11 pytorch torchvision torchaudio -c pytorch -y
 RUN conda install -n anaconda11 nvidia/label/cuda-12.1.1::cuda-toolkit -c pytorch -y
 
 RUN conda install -n anaconda11 -c conda-forge jupyterlab -y
 
-RUN conda run -n anaconda11 python -m ipykernel install --user --name=anaconda11 --display-name="Python 3.11 (anaconda11)"
+RUN conda run -n anaconda11 python -m ipykernel install --user --name=anaconda11 --display-name="Python 3.11 (Anaconda)"
 
 WORKDIR /mnt/user/appdata/jupyter
 VOLUME ["/mnt/user/appdata/jupyter"]
