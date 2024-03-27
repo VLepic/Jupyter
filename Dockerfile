@@ -1,24 +1,19 @@
-
-FROM pytorch/pytorch:2.2.1-cuda11.8-cudnn8-runtime
+FROM pytorch/pytorch:2.2.1-cuda12.1-cudnn8-runtime
 
 ENV PATH /opt/conda/bin:$PATH
 
-# Install Mamba in the base environment to speed up package management tasks
-RUN conda install mamba -n base -c conda-forge -y
+RUN conda create -n anaconda11 python=3.11 -y
+ENV PATH /opt/conda/envs/anaconda11/bin:$PATH
 
-# Create a PyTorch environment with Python 3.11 using Mamba
-RUN mamba create -n anaconda11 python=3.11 -y
-RUN mamba install -n anaconda11 pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 -c pytorch -c nvidia -y
-RUN mamba install -n anaconda11 -c conda-forge jupyterlab -y
-RUN mamba run -n anaconda11 python -m ipykernel install --user --name=anaconda11 --display-name="Pytorch (python 3.11)"
+RUN conda install -n anaconda11 pytorch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 pytorch-cuda=12.1 -c pytorch -c nvidia -y
 
-# Create a TensorFlow environment with Python 3.11 using Mamba
-RUN mamba create -n tf python=3.11 -y
-RUN mamba install -n tf conda-forge::tensorflow -y
-RUN mamba run -n tf python -m ipykernel install --user --name=tf --display-name="Tensorflow (python 3.11)"
+RUN conda install -n anaconda11 -c conda-forge jupyterlab -y
+RUN conda run -n anaconda11 python -m ipykernel install --user --name=anaconda11 --display-name="Pytorch (python 3.11)"
+
+
+
 
 WORKDIR /mnt/user/appdata/jupyter
-
 VOLUME ["/mnt/user/appdata/jupyter"]
 
 EXPOSE 8888
