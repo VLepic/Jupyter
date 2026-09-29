@@ -1,0 +1,35 @@
+services:
+  jupyter:
+    build:
+      context: .         # složka, kde je Dockerfile
+      dockerfile: Dockerfile
+      args:
+        NB_UID: "${NB_UID:-99}"
+        NB_GID: "${NB_GID:-100}"
+    container_name: pytorch-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - /mnt/user/appdata/jupyter:/mnt/user/appdata/jupyter
+      - jupyter-home:/home/jupyter
+    environment:
+      JUPYTER_TOKEN: "${JUPYTER_TOKEN:-}"
+    restart: unless-stopped
+    shm_size: "2gb"
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  jupyter-home:
+
