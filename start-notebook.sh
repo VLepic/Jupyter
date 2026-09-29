@@ -2,8 +2,25 @@
 set -euo pipefail
 
 if [ "$(id -u)" = 0 ]; then
-    echo "Run this image as its default jupyter user, not root. Configure NB_UID/NB_GID at build time." >&2
-    exit 1
+    if [ "${1:-}" = jupyter ] && [ "${2:-}" = lab ] && [ "${FIX_PERMISSIONS:-1}" = 1 ]; then
+        notebook_uid=$(id -u jupyter)
+        notebook_gid=$(id -g jupyter)
+        for directory in /home/jupyter /mnt/user/appdata/jupyter; do
+            if [ -L "$directory" ]; then
+                echo "Refusing to repair a symlink as the data directory: $directory" >&2
+                exit 1
+            fi
+            echo "Checking permissions in $directory for $notebook_uid:$notebook_gid"
+            # Do not follow symlinks or descend into nested filesystems.
+            find -P "$directory" -xdev \( -type d -o -type f \) \
+                \( ! -uid "$notebook_uid" -o ! -gid "$notebook_gid" \) \
+                -exec chown --no-dereference "$notebook_uid:$notebook_gid" {} +
+            find -P "$directory" -xdev -type d ! -perm -u=rwx -exec chmod u+rwx {} +
+            find -P "$directory" -xdev -type f ! -perm -u=rw -exec chmod u+rw {} +
+        done
+    fi
+    exec setpriv --reuid=jupyter --regid="$(id -g jupyter)" --init-groups \
+        /bin/bash /usr/local/bin/start-notebook.sh "$@"
 fi
 
 if [ "${1:-}" = jupyter ] && [ "${2:-}" = lab ]; then

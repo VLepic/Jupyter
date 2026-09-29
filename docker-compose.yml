@@ -14,6 +14,7 @@ services:
       - jupyter-home:/home/jupyter
     environment:
       JUPYTER_TOKEN: "${JUPYTER_TOKEN:-}"
+      FIX_PERMISSIONS: "${FIX_PERMISSIONS:-1}"
     restart: unless-stopped
     shm_size: "2gb"
     stop_grace_period: 30s

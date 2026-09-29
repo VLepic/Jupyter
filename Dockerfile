@@ -37,6 +37,11 @@ RUN python -m pip install -r /opt/notebook-requirements.txt && \
 COPY check_gpu.py /opt/check_gpu.py
 COPY start-notebook.sh /usr/local/bin/start-notebook.sh
 
+# Mounted folders are only available at runtime; the entrypoint repairs them
+# before dropping privileges to jupyter.
+USER root
+RUN command -v setpriv >/dev/null
+ENV FIX_PERMISSIONS=1
 WORKDIR /mnt/user/appdata/jupyter
 EXPOSE 8888
 ENTRYPOINT ["/usr/bin/tini", "--", "/bin/bash", "/usr/local/bin/start-notebook.sh"]
